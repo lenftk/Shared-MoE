@@ -55,17 +55,17 @@ The system utilizes a **Cycle-Shared Loop** where data passes through the same p
 
 ---
 
-## ⚠️ Critical Observation: MoE Collapse
+## ⚠️ Sparse MoE: Expert Collapse
 
-During the training of this experimental model, a phenomenon known as **Expert Collapse** was observed.
+In this experimental model, **Expert Collapse** can occur if a Load Balancing mechanism is not used. This is a common phenomenon in Sparse MoE where the gating network defaults to a "winner-takes-all" scenario.
 
 | Expert ID | Utilization Status | Result |
 | :--- | :--- | :--- |
-| **Expert 1** | 🔥 Overloaded (99% Usage) | Becomes a "Generalist" but bottlenecks learning. |
-| **Expert 2-4** | ❄️ Starved (1% Usage) | "Dead Neurons" - Wasted parameter space. |
+| **Expert A/B** | 🔥 Overloaded | Becomes a "Generalist", causing a performance bottleneck. |
+| **Expert C/D** | ❄️ Starved | Parameters remain untrained ("Dead Neurons"). |
 
-> [!NOTE]
-> Future iterations will implement **Load Balancing Loss** (auxiliary loss) to force diverse expert usage.
+> [!IMPORTANT]
+> This happens because the router tends to favor experts that perform well early in training, creating a positive feedback loop. Future updates will include **Load Balancing Loss** to ensure even distribution.
 
 ---
 
@@ -74,7 +74,7 @@ During the training of this experimental model, a phenomenon known as **Expert C
 ### 📂 Directory Structure
 
 ```bash
-AICP-Shared-MoE/
+Shared-MoE/
 ├── assets/              # Screenshots & Images
 ├── config/              # Centralized configuration
 │   └── config.py        # Model & Training parameters
@@ -99,8 +99,8 @@ AICP-Shared-MoE/
 
 ### 2. Installation
 ```bash
-git clone https://github.com/lenftk/AICP-Shared-MoE.git
-cd AICP-Shared-MoE
+git clone https://github.com/lenftk/Shared-MoE.git
+cd Shared-MoE
 pip install -r requirements.txt
 ```
 
